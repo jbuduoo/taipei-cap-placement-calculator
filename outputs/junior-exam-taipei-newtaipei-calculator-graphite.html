@@ -369,8 +369,8 @@
       <div class="summary">
         <div class="metric">
           <div class="label">會考積分</div>
-          <div id="examScore" class="value">25</div>
-          <div class="note">五科，滿分 35</div>
+          <div id="examScore" class="value">25.8</div>
+          <div class="note">五科 35 + 作文 1，滿分 36</div>
         </div>
         <div class="metric">
           <div class="label">等級組合</div>
@@ -445,6 +445,12 @@
           </div>
         </div>
 
+        <div class="subject">
+          <label for="writingGrade">作文級分</label>
+          <select id="writingGrade"></select>
+          <div id="writingPoint" class="level-pill level-A">0.8</div>
+        </div>
+
       </div>
 
       <details open>
@@ -494,6 +500,7 @@
   <script>
     const levelPoints = { "A++": 7, "A+": 6, "A": 5, "B++": 4, "B+": 3, "B": 2, "C": 1 };
     const levels = Object.keys(levelPoints);
+    const writingPoints = { "6": 1, "5": 0.8, "4": 0.6, "3": 0.4, "2": 0.2, "1": 0.1 };
     const ranges = {
       chinese: [
         ["A++", 40, 42], ["A+", 39, 39], ["A", 36, 38], ["B++", 32, 35],
@@ -589,8 +596,12 @@
     function mergeSchools(rows) {
       const merged = new Map();
       rows.forEach(row => {
+        const department = row.city === "台北市" && row.name === "大安高工" && row.department === "製圖科"
+          ? "電腦機械製圖科"
+          : row.department;
         row = {
           ...row,
+          department,
           area: row.area || schoolAreaFallback[`${row.city}|${row.name}`] || "",
           ownership: row.name.includes("私立") ? "私" : "公"
         };
@@ -1226,6 +1237,10 @@
       }));
     }
 
+    function getWritingScore() {
+      return writingPoints[document.getElementById("writingGrade").value] ?? 0;
+    }
+
     function describeCombo(selectedLevels) {
       const counts = { A: 0, B: 0, C: 0 };
       Object.values(selectedLevels).forEach(level => {
@@ -1255,7 +1270,10 @@
         directPoint.textContent = levelPoints[document.getElementById(id + "Direct").value];
       });
 
-      const examScore = subjectIds.reduce((sum, id) => sum + levelPoints[selected[id]], 0);
+      const fiveSubjectScore = subjectIds.reduce((sum, id) => sum + levelPoints[selected[id]], 0);
+      const writingScore = getWritingScore();
+      const examScore = fiveSubjectScore + writingScore;
+      document.getElementById("writingPoint").textContent = fmt(writingScore);
       document.getElementById("examScore").textContent = fmt(examScore);
       document.getElementById("combo").textContent = describeCombo(selected);
       document.getElementById("plusCount").textContent = `+ 標示數 ${plusMarks(selected)}`;
@@ -1336,6 +1354,9 @@
         const select = document.getElementById(id + "Direct");
         select.innerHTML = levels.map(level => `<option value="${level}" ${level === "A" ? "selected" : ""}>${level}</option>`).join("");
       });
+      document.getElementById("writingGrade").innerHTML = Object.entries(writingPoints)
+        .map(([grade, point]) => `<option value="${grade}" ${grade === "5" ? "selected" : ""}>${grade}級分（${fmt(point)}分）</option>`)
+        .join("");
     }
 
     function setMode(mode) {
