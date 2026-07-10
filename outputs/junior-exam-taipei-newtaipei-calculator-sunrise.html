@@ -1,0 +1,1364 @@
+﻿<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>115 會考基北區落點估算｜暖色明亮版</title>
+  <style>
+    :root {
+      --ink: #172026;
+      --muted: #66737f;
+      --line: #d8e0e7;
+      --paper: #f7f9fb;
+      --panel: #ffffff;
+      --blue: #2f6fbd;
+      --green: #25855a;
+      --amber: #a86500;
+      --red: #bc3b35;
+      --violet: #6f55b5;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", Arial, sans-serif;
+      line-height: 1.45;
+    }
+    header {
+      border-bottom: 1px solid var(--line);
+      background: #ffffff;
+    }
+    .wrap {
+      width: min(1180px, calc(100vw - 32px));
+      margin: 0 auto;
+    }
+    .top {
+      padding: 12px 0 10px;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(22px, 3vw, 32px);
+      letter-spacing: 0;
+    }
+    main {
+      display: grid;
+      grid-template-columns: 390px 1fr;
+      gap: 18px;
+      padding: 12px 0 24px;
+      align-items: start;
+    }
+    section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    .panel-title {
+      margin: 0;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      font-size: 17px;
+    }
+    .inputs { padding: 14px 16px 16px; }
+    .subject {
+      display: grid;
+      grid-template-columns: 88px 1fr 76px;
+      gap: 10px;
+      align-items: center;
+      padding: 9px 0;
+      border-bottom: 1px solid #edf1f5;
+    }
+    .subject:last-child { border-bottom: 0; }
+    label {
+      font-weight: 700;
+      font-size: 14px;
+    }
+    input, select {
+      width: 100%;
+      height: 38px;
+      border: 1px solid #c7d1da;
+      border-radius: 6px;
+      padding: 0 10px;
+      color: var(--ink);
+      background: #fff;
+      font: inherit;
+    }
+    input:focus, select:focus {
+      outline: 2px solid rgba(47, 111, 189, .18);
+      border-color: var(--blue);
+    }
+    .level-pill {
+      min-height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 6px;
+      font-weight: 800;
+      border: 1px solid #cbd7e2;
+      background: #f8fafc;
+    }
+    .level-A { color: var(--blue); background: #edf5ff; border-color: #b8d5f6; }
+    .level-B { color: var(--green); background: #edf8f2; border-color: #b8dfca; }
+    .level-C { color: var(--red); background: #fff0ef; border-color: #ecc2bf; }
+    .small {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 400;
+    }
+    .mode {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .mode button, .tools button {
+      height: 38px;
+      border: 1px solid #c7d1da;
+      background: #fff;
+      color: var(--ink);
+      border-radius: 6px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .mode button.active {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+    }
+    .school-tabs {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcfd;
+    }
+    .school-tabs button {
+      height: 38px;
+      border: 1px solid #c7d1da;
+      background: #fff;
+      color: var(--ink);
+      border-radius: 6px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .school-tabs button.active {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+    }
+    .school-filters {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr);
+      gap: 10px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+    .school-filters[hidden] {
+      display: none;
+    }
+    .filter-field label {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .tools {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .tools button {
+      flex: 1;
+      background: #f7fafc;
+    }
+    .extra-grid button {
+      width: 100%;
+      height: 38px;
+      border: 1px solid #c7d1da;
+      background: #f7fafc;
+      color: var(--ink);
+      border-radius: 6px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .extra-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .extra-grid .full { grid-column: 1 / -1; }
+    .converter {
+      margin-top: 14px;
+      border: 1px solid #dce5ec;
+      border-radius: 8px;
+      background: #fbfcfd;
+      padding: 12px;
+    }
+    .converter h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+    }
+    .converter-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .converter-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .converter button {
+      width: 100%;
+      height: 36px;
+      border: 1px solid #c7d1da;
+      border-radius: 6px;
+      background: #fff;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcfd;
+    }
+    .metric {
+      border: 1px solid #dce5ec;
+      border-radius: 8px;
+      padding: 10px;
+      background: #fff;
+      min-height: 74px;
+    }
+    .metric .label {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
+    .metric .value {
+      font-size: 24px;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+    .metric .note {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 5px;
+    }
+    .school-list {
+      max-height: 680px;
+      overflow: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    th, td {
+      border-bottom: 1px solid #edf1f5;
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: middle;
+    }
+    th {
+      position: sticky;
+      top: 0;
+      background: #f8fafc;
+      z-index: 1;
+      color: #42505c;
+      font-size: 13px;
+    }
+    td.num, th.num { text-align: right; }
+    .status {
+      display: inline-flex;
+      min-width: 70px;
+      justify-content: center;
+      padding: 4px 7px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      border: 1px solid transparent;
+    }
+    .stable { color: var(--green); background: #e9f7ef; border-color: #b9dfca; }
+    .match { color: var(--blue); background: #ebf4ff; border-color: #b7d4f4; }
+    .reach { color: var(--amber); background: #fff5e4; border-color: #edd2a2; }
+    .hard { color: var(--muted); background: #f2f5f7; border-color: #d9e0e6; }
+    .source {
+      padding: 14px 16px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .source a { color: var(--blue); text-decoration: none; }
+    details {
+      margin-top: 18px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    summary {
+      cursor: pointer;
+      padding: 12px 16px;
+      font-weight: 800;
+    }
+    .grade-image {
+      display: block;
+      width: 100%;
+      border-top: 1px solid var(--line);
+    }
+    @media (max-width: 980px) {
+      main { grid-template-columns: 1fr; }
+      .summary { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 620px) {
+      .wrap { width: min(100vw - 20px, 1180px); }
+      .subject { grid-template-columns: 78px 1fr 64px; gap: 8px; }
+      .summary, .extra-grid, .converter-grid, .converter-row, .school-filters { grid-template-columns: 1fr; }
+    }
+      /* Theme: sunrise */
+    :root {
+      --ink: #2b211f;
+      --muted: #76675f;
+      --line: #e2d4c9;
+      --paper: #fff8f0;
+      --panel: #fffdf9;
+      --blue: #8c5cc4;
+      --green: #2e7a63;
+      --amber: #b55b19;
+      --red: #c64a4a;
+      --violet: #8c5cc4;
+    }
+    header { background: #fff3e6; }
+    section { box-shadow: 0 1px 0 rgba(181, 91, 25, .08); }
+    input:focus, select:focus { outline-color: rgba(140, 92, 196, .2); }
+    .mode button.active, .school-tabs button.active { background: #7b3f2f; border-color: #7b3f2f; }
+    .level-A, .match { color: #7452b6; background: #f2ecfb; border-color: #d2c0ef; }
+    .level-B, .stable { color: #2e7a63; background: #ecf7f1; border-color: #b7ddcc; }
+    .reach { color: #a44f14; background: #fff0df; border-color: #edc19a; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap top">
+      <div>
+        <h1>115 會考基北區落點估算</h1>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section>
+      <div class="summary">
+        <div class="metric">
+          <div class="label">會考積分</div>
+          <div id="examScore" class="value">25</div>
+          <div class="note">五科，滿分 35</div>
+        </div>
+        <div class="metric">
+          <div class="label">等級組合</div>
+          <div id="combo" class="value">5A</div>
+          <div id="plusCount" class="note">+ 標示數 0</div>
+        </div>
+        <div class="metric">
+          <div class="label">落點筆數</div>
+          <div id="schoolCount" class="value">0</div>
+          <div class="note">有機會學校</div>
+        </div>
+      </div>
+      <div class="inputs">
+        <div class="mode" role="tablist" aria-label="輸入模式">
+          <button id="percentMode" class="active" type="button">換算今100分制估算</button>
+          <button id="levelMode" type="button">直接選等級</button>
+        </div>
+
+        <div id="percentInputs">
+          <div class="subject">
+            <label for="chinesePercent">國文</label>
+            <input id="chinesePercent" type="number" min="0" max="100" step="1" value="90">
+            <div id="chinesePercentLevel" class="level-pill">A</div>
+          </div>
+          <div class="subject">
+            <label for="englishPercent">英文</label>
+            <input id="englishPercent" type="number" min="0" max="100" step="1" value="90">
+            <div id="englishPercentLevel" class="level-pill">B++</div>
+          </div>
+          <div class="subject">
+            <label for="mathPercent">數學</label>
+            <input id="mathPercent" type="number" min="0" max="100" step="1" value="90">
+            <div id="mathPercentLevel" class="level-pill">A+</div>
+          </div>
+          <div class="subject">
+            <label for="socialPercent">社會</label>
+            <input id="socialPercent" type="number" min="0" max="100" step="1" value="90">
+            <div id="socialPercentLevel" class="level-pill">A+</div>
+          </div>
+          <div class="subject">
+            <label for="sciencePercent">自然</label>
+            <input id="sciencePercent" type="number" min="0" max="100" step="1" value="90">
+            <div id="sciencePercentLevel" class="level-pill">A</div>
+          </div>
+        </div>
+
+        <div id="directInputs" hidden>
+          <div class="subject">
+            <label for="chineseDirect">國文</label>
+            <select id="chineseDirect"></select>
+            <div id="chineseDirectPoint" class="level-pill">5</div>
+          </div>
+          <div class="subject">
+            <label for="englishDirect">英文</label>
+            <select id="englishDirect"></select>
+            <div id="englishDirectPoint" class="level-pill">5</div>
+          </div>
+          <div class="subject">
+            <label for="mathDirect">數學</label>
+            <select id="mathDirect"></select>
+            <div id="mathDirectPoint" class="level-pill">5</div>
+          </div>
+          <div class="subject">
+            <label for="socialDirect">社會</label>
+            <select id="socialDirect"></select>
+            <div id="socialDirectPoint" class="level-pill">5</div>
+          </div>
+          <div class="subject">
+            <label for="scienceDirect">自然</label>
+            <select id="scienceDirect"></select>
+            <div id="scienceDirectPoint" class="level-pill">5</div>
+          </div>
+        </div>
+
+      </div>
+
+      <details open>
+        <summary>115 級距表：國社自看答對題數，英數看加權成績</summary>
+        <img class="grade-image" src="115-grade-table.png" alt="115會考各科等級標示、答對題數與英數加權成績對照表">
+      </details>
+    </section>
+
+    <section>
+      <div class="school-tabs" role="tablist" aria-label="學校類型">
+        <button id="highSchoolTab" class="active" type="button">高中</button>
+        <button id="vocationalTab" type="button">高工/高商</button>
+      </div>
+      <div id="schoolFilters" class="school-filters" hidden>
+        <div class="filter-field">
+          <label for="keywordSearch">關鍵字搜尋</label>
+          <input id="keywordSearch" type="search" placeholder="例如：開平、資訊、餐飲、板橋">
+        </div>
+      </div>
+      <div class="school-list">
+        <table>
+          <thead>
+            <tr>
+              <th>公私</th>
+              <th>縣市</th>
+              <th>區域</th>
+              <th>學校</th>
+              <th>科別</th>
+              <th class="num">113</th>
+              <th class="num">114</th>
+              <th id="predictedHeader" class="num">115 預估</th>
+              <th>落點</th>
+            </tr>
+          </thead>
+          <tbody id="schoolRows"></tbody>
+        </table>
+      </div>
+
+      <div class="source">
+        資料來源：<a href="https://www.reallygood.com.tw/newExam/inside?str=4DE9D1836AF41440D13CC29EB533EAFF">甄戰 115 基北區落點</a>、
+        <a href="https://www.reallygood.com.tw/newExam/inside?str=FEF6D9F2E6CB114C81C078D39A4DC1FF">甄戰 115 會考級距</a>、
+        高工/高商採使用者提供之高中職 112/113/114 會考最低分數 PDF/JPG。沒有分數的科別不列入；錄取分數僅供志願評估。
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const levelPoints = { "A++": 7, "A+": 6, "A": 5, "B++": 4, "B+": 3, "B": 2, "C": 1 };
+    const levels = Object.keys(levelPoints);
+    const ranges = {
+      chinese: [
+        ["A++", 40, 42], ["A+", 39, 39], ["A", 36, 38], ["B++", 32, 35],
+        ["B+", 28, 31], ["B", 17, 27], ["C", 0, 16]
+      ],
+      social: [
+        ["A++", 52, 54], ["A+", 51, 51], ["A", 48, 50], ["B++", 41, 47],
+        ["B+", 34, 40], ["B", 20, 33], ["C", 0, 19]
+      ],
+      science: [
+        ["A++", 47, 50], ["A+", 46, 46], ["A", 43, 45], ["B++", 36, 42],
+        ["B+", 29, 35], ["B", 19, 28], ["C", 0, 18]
+      ],
+      english: [
+        ["A++", 98.14, 100], ["A+", 96.28, 98.13], ["A", 90.70, 96.27],
+        ["B++", 82.30, 90.69], ["B+", 69.28, 82.29], ["B", 38.43, 69.27], ["C", 0, 38.42]
+      ],
+      math: [
+        ["A++", 91.60, 100], ["A+", 85.70, 91.59], ["A", 77.10, 85.69],
+        ["B++", 68.70, 77.09], ["B+", 59.40, 68.69], ["B", 39.00, 59.39], ["C", 0, 38.99]
+      ]
+    };
+    const subjectIds = ["chinese", "english", "math", "social", "science"];
+    const schoolAreas = {
+      "建國中學": "中正區", "北一女中": "中正區", "師大附中(男)": "大安區", "師大附中(女)": "大安區",
+      "成功高中": "中正區", "中山女中": "中山區", "松山高中(男)": "信義區", "松山高中(女)": "信義區",
+      "大同高中": "中山區", "中崙高中": "松山區", "政大附中": "文山區", "板橋高中(男)": "板橋區",
+      "板橋高中(女)": "板橋區", "成淵高中": "大同區", "麗山高中": "內湖區", "海山高中": "板橋區",
+      "大直高中": "中山區", "和平高中": "大安區", "西松高中": "松山區", "北大高中": "三峽區",
+      "明倫高中": "大同區", "內湖高中(男)": "內湖區", "內湖高中(女)": "內湖區", "百齡高中": "士林區",
+      "中正高中": "北投區", "景美女中": "文山區", "中和高中": "中和區", "陽明高中": "士林區",
+      "南湖高中": "內湖區", "新莊高中": "新莊區", "永平高中": "永和區", "南港高中": "南港區",
+      "華江高中": "萬華區", "新北高中": "三重區", "永春高中": "信義區", "丹鳳高中": "新莊區",
+      "華僑高中": "板橋區", "新店高中": "新店區", "錦和高中": "中和區", "三民高中": "蘆洲區",
+      "大理高中": "萬華區", "萬芳高中": "文山區", "光復高中": "板橋區", "三重高中": "三重區",
+      "竹圍高中": "淡水區", "育成高中": "南港區", "林口高中": "林口區", "清水高中": "土城區",
+      "樹林高中": "樹林區", "安康高中": "新店區", "泰山高中": "泰山區", "復興高中": "北投區",
+      "秀峰高中": "汐止區", "明德高中": "三峽區", "石碇高中": "石碇區"
+    };
+    function scoredRows(category, city, area, name, rows) {
+      return rows.map(([department, cutoff113, cutoff114, cutoff]) => ({
+        category,
+        name,
+        department,
+        city,
+        area,
+        cutoff113: cutoff113 ?? null,
+        cutoff114: cutoff114 ?? null,
+        cutoff: cutoff ?? null
+      }));
+    }
+
+    const schoolAreaFallback = {
+      "台北市|私立大同高中": "中山區",
+      "台北市|私立再興高中": "文山區",
+      "台北市|私立延平高中": "大安區",
+      "台北市|私立東山高中": "文山區",
+      "台北市|私立東方工商": "大安區",
+      "台北市|私立育達高職": "松山區",
+      "台北市|私立金甌女中": "大安區",
+      "台北市|私立泰北高中": "士林區",
+      "台北市|私立強恕高中": "中正區",
+      "台北市|私立喬治工商": "大安區",
+      "台北市|私立復興實中": "大安區",
+      "台北市|私立景文高中": "文山區",
+      "台北市|私立開南商工": "中正區",
+      "台北市|私立稻江高商": "大同區",
+      "台北市|私立稻江護家": "中山區",
+      "台北市|私立衛理女中": "士林區",
+      "台北市|私立靜修高中": "大同區",
+      "基隆市|私立二信高中": "中正區",
+      "基隆市|國立基隆商工": "七堵區",
+      "新北市|私立中信高中": "新店區",
+      "新北市|私立光仁高中": "板橋區",
+      "新北市|私立竹林高中": "中和區",
+      "新北市|私立東海高中": "三重區",
+      "新北市|私立金陵女中": "三重區",
+      "新北市|私立南山高中": "中和區",
+      "新北市|私立恆毅高中": "新莊區",
+      "新北市|私立能仁家商": "新店區",
+      "新北市|私立崇光女中": "新店區",
+      "新北市|私立崇義高中": "汐止區",
+      "新北市|私立康橋高中": "新店區",
+      "新北市|私立光華高商進修學校": "板橋區",
+      "新北市|私立莊敬工家": "新店區",
+      "新北市|私立復興商工": "永和區",
+      "新北市|私立智光商工": "永和區",
+      "新北市|私立樹人家商": "樹林區",
+      "新北市|私立豫章工商": "板橋區",
+      "新北市|私立醒吾高中": "林口區"
+    };
+
+    function mergeSchools(rows) {
+      const merged = new Map();
+      rows.forEach(row => {
+        row = {
+          ...row,
+          area: row.area || schoolAreaFallback[`${row.city}|${row.name}`] || "",
+          ownership: row.name.includes("私立") ? "私" : "公"
+        };
+        const key = [row.category, row.city, row.name, row.department].join("|");
+        const existing = merged.get(key);
+        if (!existing) {
+          merged.set(key, { ...row });
+          return;
+        }
+        ["area", "cutoff113", "cutoff114", "cutoff"].forEach(field => {
+          if (row[field] !== null && row[field] !== "" && row[field] !== undefined) existing[field] = row[field];
+        });
+      });
+      return Array.from(merged.values());
+    }
+
+    const schools = mergeSchools([
+      ["建國中學", "台北市", 34.8, 33.8, 33.8], ["北一女中", "台北市", 33.8, 33.6, 33.8],
+      ["師大附中(男)", "台北市", 33.8, 32.8, 32.8], ["師大附中(女)", "台北市", 33.6, 32.8, 32.8],
+      ["成功高中", "台北市", 32.6, 31.6, 31.8], ["中山女中", "台北市", 31.8, 30.8, 31.0],
+      ["松山高中(男)", "台北市", 31.6, 30.6, 30.8], ["松山高中(女)", "台北市", 30.6, 29.8, 30.0],
+      ["大同高中", "台北市", 30.6, 29.6, 29.8], ["中崙高中", "台北市", 29.6, 28.6, 28.8],
+      ["政大附中", "台北市", 28.8, 28.6, 28.8], ["板橋高中(男)", "新北市", 28.8, 28.6, 28.8],
+      ["板橋高中(女)", "新北市", 28.8, 27.8, 27.8], ["成淵高中", "台北市", 28.6, 27.6, 27.8],
+      ["麗山高中", "台北市", 28.6, 26.8, 27.6], ["海山高中", "新北市", 26.8, 26.6, 26.6],
+      ["大直高中", "台北市", 27.8, 26.4, 26.6], ["和平高中", "台北市", 27.6, 25.8, 26.6],
+      ["西松高中", "台北市", 26.6, 24.6, 25.6], ["北大高中", "新北市", 25.8, 24.6, 24.8],
+      ["明倫高中", "台北市", 25.6, 24.6, 24.8], ["內湖高中(男)", "台北市", 25.6, 23.8, 24.6],
+      ["內湖高中(女)", "台北市", 24.8, 23.8, 24.6], ["百齡高中", "台北市", 24.6, 23.6, 23.6],
+      ["中正高中", "台北市", 24.6, 22.6, 22.6], ["景美女中", "台北市", 22.8, 22.8, 22.6],
+      ["中和高中", "新北市", 22.6, 21.8, 22.6], ["陽明高中", "台北市", 22.6, 21.6, 21.8],
+      ["南湖高中", "台北市", 22.6, 21.6, 21.8], ["新莊高中", "新北市", 21.8, 20.6, 21.6],
+      ["永平高中", "新北市", 21.6, 20.6, 21.6], ["南港高中", "台北市", 20.8, 20.6, 20.6],
+      ["華江高中", "台北市", 20.8, 19.6, 20.0], ["新北高中", "新北市", 19.6, 19.6, 19.6],
+      ["永春高中", "台北市", 19.8, 18.6, 19.6], ["丹鳳高中", "新北市", 20.4, 18.6, 19.6],
+      ["華僑高中", "新北市", 19.6, 18.6, 18.6], ["新店高中", "新北市", 18.8, 17.6, 18.6],
+      ["錦和高中", "新北市", 18.6, 17.6, 18.6], ["三民高中", "新北市", 18.6, 17.6, 17.8],
+      ["大理高中", "台北市", 17.6, 16.6, 17.6], ["萬芳高中", "台北市", 17.8, 16.6, 17.6],
+      ["光復高中", "新北市", 17.6, 16.6, 17.6], ["三重高中", "新北市", 17.6, 15.6, 16.6],
+      ["竹圍高中", "新北市", 17.6, 15.6, 16.6], ["育成高中", "台北市", 16.6, 15.6, 16.4],
+      ["林口高中", "新北市", 14.6, 15.4, 15.6], ["清水高中", "新北市", 16.6, 13.8, 14.6],
+      ["樹林高中", "新北市", 15.4, 12.8, 13.8], ["安康高中", "新北市", 15.6, 12.6, 13.6],
+      ["泰山高中", "新北市", 13.6, 12.6, 13.6], ["復興高中", "台北市", 13.6, 11.6, 12.6],
+      ["秀峰高中", "新北市", 13.6, 10.6, 11.6], ["明德高中", "新北市", 13.6, 9.6, 10.6],
+      ["石碇高中", "新北市", 13.6, 5.4, 6.6]
+    ].map(([name, city, cutoff113, cutoff114, cutoff]) => ({
+      category: "高中",
+      name,
+      department: "普通科",
+      city,
+      area: schoolAreas[name] || "",
+      cutoff113,
+      cutoff114,
+      cutoff
+    })).concat(
+      scoredRows("高工/高商", "台北市", "大安區", "大安高工", [
+        ["電機科", 28.4], ["電子科", 26.6], ["建築科", 22.8], ["製圖科", null, 19.6],
+        ["控制科", null, 24.6], ["資訊科", 27.4], ["汽車科", 19.6, 18.6],
+        ["冷凍空調科", 21.6, 20.6], ["圖文傳播科", null, 24.6], ["綜合高中", 25.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "內湖區", "內湖高工", [
+        ["電子科", 12.6, 12.6], ["控制科", 10.6, 14.6], ["冷凍空調科", null, 7.4]
+      ]),
+      scoredRows("高工/高商", "台北市", "信義區", "松山工農", [
+        ["資訊科", 17.8, 19.6], ["汽車科", 17.6, 14.8], ["電機科", null, 18.6],
+        ["食品加工科", 16.6], ["園藝科", 12.6], ["化工科", 16.6], ["機械科", null, 16.4]
+      ]),
+      scoredRows("高工/高商", "台北市", "信義區", "松山家商", [
+        ["資料處理科", 13.6], ["國際貿易科", 14.4], ["應外科(英文)", 15.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "南港區", "南港高工", [
+        ["電機科", null, 13.6], ["鑄造科", 9.4], ["冷凍空調科", 16.6],
+        ["機械科", 13.4], ["土木科", null, 16.6], ["建築科", 14.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "士林區", "士林高商", [
+        ["商業經營科", 15.6, 13.6], ["會計事務科", 21.6], ["廣告設計科", 18.6, 15.6],
+        ["應用英語科", 16.6, 15.6], ["資料處理科", 15.6, 16.6]
+      ]),
+      scoredRows("高工/高商", "新北市", "土城區", "新北高工", [
+        ["電機科", 15.4], ["資訊科", 16.6, 17.6], ["機械科", 14.6, 14.6],
+        ["鑄造科", 10.6], ["資料處理科", 14.6], ["模具科", null, 11.6]
+      ]),
+      scoredRows("高工/高商", "新北市", "三重區", "三重商工", [
+        ["應用英語科", 12.6, 11.2], ["商業經營科", 12.6, 12.4], ["資料處理科", null, 11.6],
+        ["機械科", 12.4], ["汽車科", 10.6, 9.6], ["板金科", 9.6],
+        ["應外科(英文)", 12.6], ["製圖科", null, 13.6], ["模具科", 10.4]
+      ]),
+      scoredRows("高工/高商", "新北市", "三重區", "三重進修", [
+        ["汽車科", 8.4]
+      ]),
+      scoredRows("高工/高商", "新北市", "泰山區", "泰山高中", [
+        ["電子科", 11.6], ["電機科", 11.6], ["機械科", 10.6], ["汽車科", 9.8]
+      ]),
+      scoredRows("高工/高商", "新北市", "泰山區", "泰山進修", [
+        ["汽車科", 6.4]
+      ]),
+      scoredRows("高工/高商", "新北市", "淡水區", "淡水商工", [
+        ["電子科", 6.2], ["資訊科", 10.6, 6.2], ["園藝科", null, 8.6],
+        ["控制科", null, 7.4], ["普通科", 9.6], ["餐飲管理科", 14.4]
+      ]),
+      scoredRows("高工/高商", "新北市", "瑞芳區", "瑞芳高工", [
+        ["空間測繪科", null, 8.4], ["機械科", 6.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "內湖區", "台灣戲曲學院高職部", [
+        ["劇場藝術科", 12.6]
+      ]),
+      scoredRows("高工/高商", "基隆市", "中正區", "基隆海事", [
+        ["觀光事業科", 6.8], ["烘焙科", 7.1]
+      ]),
+      scoredRows("高工/高商", "台北市", "", "私立育達高職", [
+        ["餐飲管理科", 6.8, 6]
+      ]),
+      scoredRows("高工/高商", "台北市", "", "私立開南商工", [
+        ["餐飲管理科", 7.6, 7.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "", "私立稻江護家", [
+        ["餐飲管理科", 9.4, 7.6]
+      ]),
+      scoredRows("高工/高商", "新北市", "", "私立南山高中", [
+        ["餐飲管理科", 10.4, 5.2]
+      ]),
+      scoredRows("高工/高商", "新北市", "", "私立東海高中", [
+        ["餐飲管理科", 8.6, 8.1]
+      ]),
+      scoredRows("高工/高商", "新北市", "", "私立智光商工", [
+        ["餐飲管理科", 5.4, 6.6]
+      ]),
+      scoredRows("高工/高商", "新北市", "", "私立樹人家商", [
+        ["餐飲管理科", 5.4, 9.6]
+      ]),
+      scoredRows("高工/高商", "新北市", "", "私立崇義高中", [
+        ["餐飲管理科", 7.6, 7.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "士林區", "士林高商進修部", [
+        ["商業經營科", 11.6, 11.6], ["國際貿易科", null, 10.6], ["應用英語科", null, 11.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "大安區", "大安高工進修部", [
+        ["電子科", 8.1, 12.6], ["圖文傳播科", null, 11.6], ["電機科", 8.4],
+        ["汽車科", 8.4, 5.4], ["機械科", null, 7.4]
+      ]),
+      scoredRows("高工/高商", "台北市", "內湖區", "內湖高工", [
+        ["多媒體設計科", 13.6, 13.6], ["應用英語科", 15.6, 12.6],
+        ["資訊科", 13.6, 12.6], ["電機科", 12.4, 12.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "文山區", "木柵高工", [
+        ["冷凍空調科", 10.6, 10.4], ["機械科", 10.1, 9.2], ["配管科", 9.6, 8.6],
+        ["模具科", 8.6, 8.4], ["鑄造科", 8.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "信義區", "松山工農", [
+        ["電子科", 18.6, 18.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "信義區", "松山家商", [
+        ["室內設計科", 16.4, 15.8], ["廣告設計科", 15.8, 15.6],
+        ["會計事務科", 14.6, 14.6], ["應用英語科", 14.6], ["商業經營科", 14.6, 12.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "南港區", "南港高工", [
+        ["電子科", 13.6, 13.6], ["汽車科", 11.8], ["模具科", 9.6, 10.4], ["重機科", 9.6, 9.6]
+      ]),
+      scoredRows("高工/高商", "新北市", "土城區", "新北高工", [
+        ["應用英語科", 14.8, 13.2], ["汽車科", 13.6, 12.4], ["製圖科", 13.4, 12.4]
+      ]),
+      scoredRows("高工/高商", "新北市", "土城區", "新北高工進修部", [
+        ["資訊科", null, 15.6], ["汽車科", null, 9.4], ["資料處理科", null, 8.6]
+      ]),
+      scoredRows("高工/高商", "新北市", "三重區", "三重商工進修部", [
+        ["商業經營科", null, 7.6]
+      ]),
+      scoredRows("高工/高商", "新北市", "泰山區", "泰山進修", [
+        ["電子科", null, 9.6]
+      ]),
+      scoredRows("高工/高商", "新北市", "淡水區", "淡水商工", [
+        ["商業經營科", 12.6, 10.6], ["會計事務科", null, 11.6],
+        ["資料處理科", null, 11.6], ["電機科", 9.6, 8.6]
+      ]),
+      scoredRows("高工/高商", "新北市", "瑞芳區", "瑞芳高工", [
+        ["建築科", 6.4, 12.4], ["室內空間設計科", 7.6, 9.6],
+        ["資訊科", 8.4, 8.4], ["電子科", 8.6, 8.6],
+        ["電機科", 6.4], ["應用英語科", 7.4, 6.4]
+      ]),
+      scoredRows("高工/高商", "新北市", "汐止區", "樟樹實中", [
+        ["多媒體動畫科", 12.6, 12.6], ["資訊科", 10.6, 11.6],
+        ["流行服飾科", null, 9.6], ["資料處理科", null, 10.6],
+        ["廣告設計科", 10.6, 10.6], ["美術工藝科", 10.4, 11.4]
+      ]),
+      scoredRows("高工/高商", "新北市", "鶯歌區", "鶯歌工商", [
+        ["陶瓷工程科", 8.6, 9.4], ["資訊科", null, 8.6], ["多媒體設計科", 9.4, 8.6]
+      ]),
+      scoredRows("高工/高商", "基隆市", "中正區", "國立海大附中", [
+        ["航海科", 13.6, 12.4], ["輪機科", null, 11.4], ["觀光事業科", null, 10.6],
+        ["資訊科", null, 10.6], ["水產養殖科", 10.4], ["食品科", null, 8.6],
+        ["航運管理科", null, 7.6], ["漁業科", null, 7.2]
+      ]),
+      scoredRows("高工/高商", "基隆市", "", "國立基隆商工", [
+        ["商業經營科", 12.6, 11.4], ["國際貿易科", null, 10.6],
+        ["會計事務科", null, 10.6], ["電機科", null, 9.6], ["廣告設計科", null, 8.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "", "私立金甌女中", [
+        ["多媒體設計科", 9.6, 8.6], ["商業經營科", 9.6, 9.6],
+        ["應用日語科", 5.4, 5], ["應用英語科", 9.6, 8.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "", "私立育達高職", [
+        ["表演藝術科", 11.6, 6.4], ["觀光事業科", 12.6], ["多媒體設計科", 6.6],
+        ["汽車科", 9.4, 8.4], ["資訊科", 8.4, 8.4], ["廣告設計科", 8.6, 7.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "", "私立開南商工", [
+        ["照顧服務科", 7.6, 6.6], ["資料處理科", 6.6, 7.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "", "私立大同高中", [
+        ["資訊科", 5.4, 6.1], ["室內空間設計科", 11.4, 9.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "", "私立靜修高中", [
+        ["應用英語科", 10.6, 8.6], ["室內空間設計科", 6.4]
+      ]),
+      scoredRows("高工/高商", "台北市", "", "私立景文高中", [
+        ["商業經營科", 8.4], ["幼兒保育科", 7.6, 14.6],
+        ["時尚造型科", 11.6, 13.6], ["應用英語科", 10.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "", "私立稻江護家", [
+        ["應用日語科", 9.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "", "私立東方工商", [
+        ["時尚造型科", 5.2]
+      ]),
+      scoredRows("高工/高商", "新北市", "", "私立南山高中", [
+        ["應用英語科", 12.6, 16.6]
+      ]),
+      scoredRows("高工/高商", "新北市", "", "私立東海高中", [
+        ["幼兒保育科", 5.6, 11.6], ["美容科", 6.4]
+      ]),
+      scoredRows("高工/高商", "新北市", "", "私立復興商工", [
+        ["美術科", 10.4, 12.6], ["廣告設計科", 8.6, 6.4], ["美工科", 7.6, 10.6],
+        ["資料處理科", 7.4, 8.4], ["室內設計科", 7.4, 9.4]
+      ]),
+      scoredRows("高工/高商", "新北市", "", "私立莊敬工家", [
+        ["資料處理科", 11.4, 10.6], ["電影電視科", 11.6, 9.6], ["音樂科", 11.6],
+        ["資訊科", 6.4, 9.6], ["餐飲管理科", 6, 14.6], ["表演藝術科", 6.4, 8.6],
+        ["幼兒保育科", 6.2, 7.6], ["美容科", 5.1]
+      ]),
+      scoredRows("高工/高商", "新北市", "", "私立智光商工", [
+        ["多媒體設計科", 10.6, 5.1], ["資料處理科", 7.6, 10.6],
+        ["電子科", 9.6, 7], ["機械科", 7, 5], ["資訊科", 5.2]
+      ]),
+      scoredRows("高工/高商", "新北市", "", "私立樹人家商", [
+        ["資料處理科", 11.6, 10.1], ["觀光事業科", 8.6, 14.6],
+        ["美容科", 8.6, 7.6], ["商業經營科", 12.4], ["影劇科", 8.6, 8.6],
+        ["資訊科", 7.4]
+      ]),
+      scoredRows("高工/高商", "新北市", "", "私立崇義高中", [
+        ["電子商務科", 9.6], ["資訊科", 5.6]
+      ]),
+      scoredRows("高工/高商", "基隆市", "", "私立二信高中", [
+        ["廣告設計科", 5.1]
+      ]),
+      scoredRows("高中", "台北市", "", "私立靜修高中", [
+        ["普通科(女)", 12.6, 12.6]
+      ]),
+      scoredRows("高中", "台北市", "", "私立衛理女中", [
+        ["普通科(女)", 17.6, 15.6]
+      ]),
+      scoredRows("高中", "台北市", "", "私立景文高中", [
+        ["普通科", 10.6]
+      ]),
+      scoredRows("高中", "台北市", "", "私立復興實中", [
+        ["普通科", null, 21.8]
+      ]),
+      scoredRows("高中", "台北市", "", "私立強恕高中", [
+        ["普通科", null, 12.6]
+      ]),
+      scoredRows("高中", "台北市", "", "私立金甌女中", [
+        ["普通科(女)", 12.6, 9.6]
+      ]),
+      scoredRows("高中", "台北市", "", "私立東山高中", [
+        ["普通科", 19.6, 19.6]
+      ]),
+      scoredRows("高中", "台北市", "", "私立延平高中", [
+        ["普通科", 29.8, 28.6]
+      ]),
+      scoredRows("高中", "台北市", "", "私立再興高中", [
+        ["普通科", 26.6, 26.8]
+      ]),
+      scoredRows("高中", "新北市", "", "私立康橋高中", [
+        ["普通科", null, 25.6]
+      ]),
+      scoredRows("高中", "新北市", "", "私立崇光女中", [
+        ["普通科(女)", 10.6, 10.6]
+      ]),
+      scoredRows("高中", "新北市", "", "私立恆毅高中", [
+        ["普通科", 7.2, 8.6]
+      ]),
+      scoredRows("高中", "新北市", "", "私立南山高中", [
+        ["普通科", 19.6, 23.8]
+      ]),
+      scoredRows("高中", "新北市", "", "私立金陵女中", [
+        ["普通科(女)", 6.6, 6.4]
+      ]),
+      scoredRows("高中", "新北市", "", "私立竹林高中", [
+        ["普通科", 9.6, 8.6]
+      ]),
+      scoredRows("高中", "新北市", "", "私立光仁高中", [
+        ["普通科", 13.6, 10.6]
+      ]),
+      scoredRows("高中", "新北市", "", "私立中信高中", [
+        ["普通科", 8.6, 9.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "大安區", "大安高工", [
+        ["土木科", 11.4, 10.6], ["冷凍空調科", 20.6, 20.6], ["汽車科", 18.6, 18.6],
+        ["建築科", 21.4, 20.6], ["控制科", 24.6, 24.6], ["資訊科", 25.8, 25.6],
+        ["電子科", 26.6, 25.8], ["電腦機械製圖科", 19.6, 18.6], ["電機科", 27.8, 27.6],
+        ["圖文傳播科", 20.6, 18.8], ["綜合高中", 16.4, 19.6], ["機械科", 22.6, 21.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "大安區", "大安高工進修部", [
+        ["汽車科(夜間班)", 5.4, 8], ["電子科(夜間班)", 12.6, 10.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "士林區", "士林高商", [
+        ["商業經營科", 15.4, 13.6], ["國際貿易科", 14.6, 12.6], ["會計事務科", 21.6, 15.6],
+        ["資料處理科", 17.6, 14.6], ["廣告設計科", 17.6, 16.6], ["應用英語科", 15.6, 15.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "內湖區", "內湖高工", [
+        ["冷凍空調科", 10.2, 8.6], ["資訊科", 12.6, 11.6], ["電子科", 10.8, 8.4],
+        ["電機科", 12.6, 11.6], ["應用英語科", 12.6, 9.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "信義區", "松山工農", [
+        ["化工科", 16.4, 14.8], ["汽車科", 14.6, 13.6], ["食品加工科", 14.6, 13.6],
+        ["園藝科", 12.8, 11.6], ["資訊科", 17.8, 16.6], ["電機科", 19.6, 18.6],
+        ["綜合高中", 16.4, 14.6], ["機械科", 16.6, 16.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "信義區", "松山家商", [
+        ["室內設計科", 15.8, 14.8], ["商業經營科", 12.6, 10.6], ["國際貿易科", 12.6, 15.6],
+        ["會計事務科", 14.6, 12.6], ["資料處理科", 13.4, 11.6], ["廣告設計科", 15.6, 13.6],
+        ["應用英語科", 14.6, 13.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "南港區", "南港高工", [
+        ["土木科", 11.4, 10.6], ["冷凍空調科", 10.6, 10.4], ["汽車科", null, 10.6],
+        ["建築科", 12.6, 12.4], ["重機科", 9.6, 9.4], ["電子科", 13.6, 12.6],
+        ["電機科", 15.6, 13.6], ["模具科", 10.4, 9.6], ["機械科", 12.6, 10.6],
+        ["鑄造科", 9.4, 8.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "文山區", "木柵高工", [
+        ["多媒體設計科", 13.6, 12.6], ["冷凍空調科", 10.4, 9.4], ["電子科", 10.4, 8.6],
+        ["電機科", 11, 9.6], ["製圖科", 8.6, 7.6], ["模具科", 8.4, 8.6],
+        ["機械科", 9.2, 6.6], ["鑄造科", null, 7.6]
+      ]),
+      scoredRows("高工/高商", "新北市", "土城區", "新北高工", [
+        ["汽車科", 12.4, 11.6], ["資料處理科", 12.6, 12.6], ["資訊科", 17.6, 15.6],
+        ["電機科", 15.6, 14.4], ["製圖科", 12.4, 11.6], ["模具科", 10.6, 10.6],
+        ["機械科", 14.2, 13.4], ["應用英語科", 13.2, 11.6], ["鑄造科", null, 11.6]
+      ]),
+      scoredRows("高工/高商", "新北市", "土城區", "新北高工進修部", [
+        ["汽車科(夜間班)", null, 7.6], ["資料處理科(夜間班)", 8.6, 10.4],
+        ["資訊科(夜間班)", null, 12.6], ["機械科(夜間班)", null, 7.4]
+      ]),
+      scoredRows("高工/高商", "新北市", "三重區", "三重商工", [
+        ["汽車科", 10.6, 9.6], ["板金科", null, 8.6], ["資料處理科", null, 10.8],
+        ["機械科", 12.6, 10.6], ["應用英語科", null, 12.4], ["商業經營科", 10.6, 8.6]
+      ]),
+      scoredRows("高工/高商", "新北市", "淡水區", "淡水商工", [
+        ["商業經營科", 10.6, 8.6], ["電子科", 6.2, 5.4], ["電機科", 8.6, 8.6],
+        ["餐飲管理科", null, 11.6]
+      ]),
+      scoredRows("高工/高商", "新北市", "瑞芳區", "瑞芳高工", [
+        ["室內空間設計科", 9.6], ["建築科", 12.4], ["資訊科", 8.4], ["機械科", 7.6]
+      ]),
+      scoredRows("高工/高商", "新北市", "汐止區", "樟樹實中", [
+        ["多媒體動畫科", null, 9.6]
+      ]),
+      scoredRows("高工/高商", "新北市", "泰山區", "泰山高中", [
+        ["機械科", null, 9.6]
+      ]),
+      scoredRows("高工/高商", "新北市", "鶯歌區", "鶯歌工商", [
+        ["陶瓷工程科", null, 9.4], ["資料處理科", null, 6.6], ["資訊科", null, 11.6],
+        ["廣告設計科", null, 10.8], ["應用日語科", null, 14.6], ["烘焙科", null, 10.6]
+      ]),
+      scoredRows("高工/高商", "基隆市", "中正區", "國立海大附中", [
+        ["烘焙科", null, 10.6], ["航海科", null, 11.6], ["漁業科", 7.2, 6.4], ["輪機科", null, 11.6]
+      ]),
+      scoredRows("高工/高商", "基隆市", "", "國立基隆商工", [
+        ["資訊科", null, 8.4]
+      ]),
+      scoredRows("高工/高商", "台北市", "", "私立大同高中", [
+        ["資料處理科", 7.6], ["資訊科", 6.1, 7.6], ["表演藝術科", 6.4]
+      ]),
+      scoredRows("高工/高商", "台北市", "", "私立育達高職", [
+        ["餐飲管理科", 6], ["觀光事業科", 12.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "", "私立東方工商", [
+        ["時尚造型科", null, 8.6], ["餐飲管理科", null, 8.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "", "私立金甌女中", [
+        ["多媒體設計科(女)", 8.6, 11.4], ["商業經營科(女)", 9.6, 8.6],
+        ["應用日語科(女)", 5, 7.6], ["應用英語科(女)", 8.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "", "私立泰北高中", [
+        ["表演藝術科", null, 12.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "", "私立喬治工商", [
+        ["時尚造型科", null, 5.1]
+      ]),
+      scoredRows("高工/高商", "台北市", "", "私立景文高中", [
+        ["商業經營科", 8.4, 7.6], ["汽車科", 8.4, 5.2], ["電機科", null, 5.6],
+        ["廣告設計科", null, 7.6], ["餐飲管理科", 7.6, 8.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "", "私立稻江高商", [
+        ["廣告設計科", null, 6.6], ["應用日語科", null, 11.6]
+      ]),
+      scoredRows("高工/高商", "台北市", "", "私立稻江護家", [
+        ["幼兒保育科", 14.6, 5.2], ["時尚造型科", 13.6], ["餐飲管理科", 7.6, 7.6],
+        ["應用英語科", null, 10.4]
+      ]),
+      scoredRows("高工/高商", "台北市", "", "私立靜修高中", [
+        ["應用日語科(女)", null, 8.6], ["應用英語科(女)", 8.6, 10.6]
+      ]),
+      scoredRows("高工/高商", "新北市", "", "私立東海高中", [
+        ["餐飲管理科", 5.2, 8.6]
+      ]),
+      scoredRows("高工/高商", "新北市", "", "私立能仁家商", [
+        ["餐飲管理科", 8.1, 6.4], ["幼兒保育科", 7.6], ["多媒體設計科", null, 10.8],
+        ["表演藝術科", 8.6, 6.6], ["流行服飾科", null, 9.6], ["美容科", null, 5.4],
+        ["廣告設計科", null, 7]
+      ]),
+      scoredRows("高工/高商", "新北市", "", "私立莊敬工家", [
+        ["資料處理科", 10.6, 7.1], ["資訊科", 9.6, 9.6], ["電影電視科", 9.6],
+        ["餐飲管理科", 14.6, 7.6]
+      ]),
+      scoredRows("高工/高商", "新北市", "", "私立智光商工", [
+        ["多媒體設計科", 5.1, 6.4], ["資料處理科", 10.6, 10.6], ["資訊科", 5.2, 10.4],
+        ["電子科", 7, 7.4], ["機械科", 5], ["餐飲管理科", 6.6, 5.6], ["觀光事業科", null, 7.1]
+      ]),
+      scoredRows("高工/高商", "新北市", "", "私立樹人家商", [
+        ["美容科", 7.6, 10], ["商業經營科", 12.4], ["資料處理科", 10.1],
+        ["影劇科", 8.6], ["餐飲管理科", 9.6, 5.4], ["觀光事業科", 14.6, 10.6]
+      ]),
+      scoredRows("高工/高商", "新北市", "", "私立豫章工商", [
+        ["流通管理科", null, 9.6], ["資訊科", 5.6, 8.6], ["餐飲管理科", 7.6, 5.1]
+      ]),
+      scoredRows("高工/高商", "新北市", "", "私立醒吾高中", [
+        ["商業經營科", null, 8.6]
+      ]),
+      scoredRows("高工/高商", "基隆市", "", "私立二信高中", [
+        ["外語群不分科", null, 8.4]
+      ]),
+      scoredRows("高工/高商", "台北市", "大安區", "私立開平餐飲進修部", [
+        ["餐飲管理科(夜間部)"]
+      ]),
+      scoredRows("高工/高商", "台北市", "大安區", "私立開平餐飲學校", [
+        ["餐飲管理科"]
+      ]),
+      scoredRows("高工/高商", "台北市", "大安區", "大安高工進修部", [
+        ["建築科"]
+      ]),
+      scoredRows("高工/高商", "新北市", "土城區", "新北高工進修部", [
+        ["機械科"]
+      ]),
+      scoredRows("高工/高商", "新北市", "三重區", "三重商工進修部", [
+        ["汽車科"], ["板金科"], ["機械科"], ["製圖科"], ["模具科"]
+      ]),
+      scoredRows("高工/高商", "新北市", "淡水區", "淡水商工進修部", [
+        ["餐飲管理科"]
+      ]),
+      scoredRows("高工/高商", "新北市", "瑞芳區", "瑞芳高工", [
+        ["電腦機械製圖科"]
+      ]),
+      scoredRows("高工/高商", "新北市", "瑞芳區", "瑞芳高工進修部", [
+        ["建築科"], ["資訊科"], ["電機科"], ["機械科"]
+      ]),
+      scoredRows("高工/高商", "基隆市", "中正區", "國立海大附中", [
+        ["烘焙科"]
+      ]),
+      scoredRows("高工/高商", "基隆市", "中正區", "國立海大附中進修部", [
+        ["食品科"], ["航運管理科"]
+      ]),
+      scoredRows("高工/高商", "基隆市", "七堵區", "國立基隆商工", [
+        ["資料處理科"], ["航空電子科"]
+      ]),
+      scoredRows("高工/高商", "基隆市", "七堵區", "國立基隆商工進修部", [
+        ["商業經營科"], ["國際貿易科"], ["資料處理科"]
+      ]),
+      scoredRows("高工/高商", "台北市", "松山區", "私立育達高職", [
+        ["普通科"], ["時尚造型科"]
+      ]),
+      scoredRows("高工/高商", "台北市", "中正區", "私立開南商工", [
+        ["電機科"], ["機電科"]
+      ]),
+      scoredRows("高工/高商", "台北市", "文山區", "私立滬江高中", [
+        ["航空電子科"], ["餐飲管理科"], ["商業經營科"]
+      ]),
+      scoredRows("高工/高商", "台北市", "大同區", "私立靜修高中", [
+        ["應用日語科"]
+      ]),
+      scoredRows("高工/高商", "台北市", "文山區", "私立景文高中", [
+        ["廣告設計科"]
+      ]),
+      scoredRows("高工/高商", "台北市", "中山區", "私立稻江護家", [
+        ["家政科"]
+      ]),
+      scoredRows("高工/高商", "台北市", "大同區", "私立稻江高商", [
+        ["廣告設計科"], ["觀光事業科"]
+      ]),
+      scoredRows("高工/高商", "台北市", "大同區", "私立稻江高商進修部", [
+        ["觀光事業科"]
+      ]),
+      scoredRows("高工/高商", "台北市", "大安區", "私立喬治工商", [
+        ["觀光事業科"], ["照顧服務科"], ["餐飲管理科(周間二日)"]
+      ]),
+      scoredRows("高工/高商", "台北市", "大安區", "私立喬治工商進修部", [
+        ["時尚造型科"], ["照顧服務科"]
+      ]),
+      scoredRows("高工/高商", "台北市", "大安區", "私立東方工商", [
+        ["餐飲管理科"]
+      ]),
+      scoredRows("高工/高商", "台北市", "北投區", "私立惇敘工商", [
+        ["建築科"], ["電子商務科"]
+      ]),
+      scoredRows("高工/高商", "台北市", "北投區", "私立幼華高中", [
+        ["應用日語科"]
+      ]),
+      scoredRows("高工/高商", "台北市", "信義區", "私立協和祐德高中", [
+        ["汽車科"]
+      ]),
+      scoredRows("高工/高商", "台北市", "中正區", "私立強恕高中", [
+        ["資料處理科"], ["美容科(周間二日)"]
+      ]),
+      scoredRows("高工/高商", "台北市", "文山區", "私立大誠高中", [
+        ["汽車科"], ["餐飲管理科"], ["室內設計科"]
+      ]),
+      scoredRows("高工/高商", "台北市", "文山區", "私立大誠高中進修部", [
+        ["餐飲管理科"], ["汽車科"]
+      ]),
+      scoredRows("高工/高商", "台北市", "大同區", "私立志仁高中進修學校", [
+        ["餐飲管理科(上午班)"], ["餐飲管理科(下午班)"], ["餐飲管理科(夜間班)"],
+        ["多媒體設計科(上午班)"], ["多媒體設計科(夜間班)"],
+        ["資料處理科(上午班)"], ["資料處理科(周末班)"],
+        ["觀光事業科(上午班)"], ["觀光事業科(周末班)"], ["觀光事業科(夜間班)"],
+        ["多媒體應用科(上午班)"], ["美容科(周間二日)"]
+      ]),
+      scoredRows("高工/高商", "台北市", "中正區", "私立南華高中進修學校", [
+        ["觀光事業科(周間二日)"], ["觀光事業科(上午班)"], ["觀光事業科(夜間班)"]
+      ]),
+      scoredRows("高工/高商", "新北市", "三重區", "私立東海高中", [
+        ["資訊科"], ["電子科"], ["多媒體動畫科"], ["表演藝術科"], ["廣告設計科"],
+        ["商業經營科"], ["多媒體設計科"], ["流行服飾科"]
+      ]),
+      scoredRows("高工/高商", "新北市", "新店區", "私立能仁家商", [
+        ["資料處理科"], ["廣告設計科"], ["商業經營科"], ["多媒體設計科"],
+        ["流行服飾科"], ["美容科(夜間部)"], ["觀光事業科(夜間部)"]
+      ]),
+      scoredRows("高工/高商", "新北市", "永和區", "私立復興商工進修部", [
+        ["美工科"], ["室內設計科"], ["廣告設計科"]
+      ]),
+      scoredRows("高工/高商", "新北市", "新店區", "私立莊敬工家", [
+        ["多媒體動畫科"], ["流行服飾科"], ["園藝科"]
+      ]),
+      scoredRows("高工/高商", "新北市", "新店區", "私立莊敬工家進修部", [
+        ["美容科(周間二日)"], ["餐飲管理科(周末班)"]
+      ]),
+      scoredRows("高工/高商", "新北市", "永和區", "私立智光商工", [
+        ["觀光事業科"]
+      ]),
+      scoredRows("高工/高商", "新北市", "永和區", "私立智光商工進修部", [
+        ["資訊科(夜間班)"], ["餐飲管理科(夜間班)"]
+      ]),
+      scoredRows("高工/高商", "新北市", "樹林區", "私立樹人家商", [
+        ["電子商務科"], ["幼兒保育科"], ["資料處理科(夜間班)"], ["餐飲管理科(夜間班)"]
+      ]),
+      scoredRows("高工/高商", "新北市", "汐止區", "私立崇義高中進修部", [
+        ["電子商務科(夜間班)"]
+      ]),
+      scoredRows("高工/高商", "新北市", "板橋區", "私立豫章工商", [
+        ["電機科"], ["流通管理科"], ["多媒體設計科"], ["時尚造型科"]
+      ]),
+      scoredRows("高工/高商", "新北市", "土城區", "私立穀保家商", [
+        ["資料處理科"], ["餐飲管理科"], ["航海科"]
+      ]),
+      scoredRows("高工/高商", "新北市", "萬里區", "私立中華商海", [
+        ["輪機科"], ["餐飲管理科"]
+      ]),
+      scoredRows("高工/高商", "新北市", "林口區", "私立醒吾高中", [
+        ["幼兒保育科"], ["時尚造型科"], ["商業經營科"], ["服務照顧科"], ["資料處理科"], ["觀光事業科"]
+      ]),
+      scoredRows("高工/高商", "新北市", "", "私立光華高商進修學校", [
+        ["資料處理科(上午班)"], ["資料處理科(夜間班)"],
+        ["應用日語科(上午班)"], ["觀光事業科(上午班)"], ["觀光事業科(夜間班)"]
+      ]),
+      scoredRows("高工/高商", "基隆市", "中山區", "私立二信高中", [
+        ["商業經營科"], ["資料處理科"], ["電機科"], ["機械科"], ["外語群不分科(應英、應日科)"], ["汽車科"]
+      ]),
+      scoredRows("高工/高商", "基隆市", "七堵區", "私立培德工家", [
+        ["餐飲管理科"]
+      ])
+    ));
+
+    let inputMode = "percent";
+    let schoolCategory = "高中";
+    const percentMax = { chinese: 42, social: 54, science: 50 };
+
+    function fmt(value) {
+      return Number(value).toFixed(1).replace(/\.0$/, "");
+    }
+
+    function fmtCutoff(value) {
+      return Number.isFinite(value) ? fmt(value) : "";
+    }
+
+    function levelClass(level) {
+      return level.startsWith("A") ? "level-A" : level.startsWith("B") ? "level-B" : "level-C";
+    }
+
+    function getLevel(subject, score) {
+      const numeric = Number(score);
+      if (Number.isNaN(numeric)) return "C";
+      return ranges[subject].find(([, min, max]) => numeric >= min && numeric <= max)?.[0] || "C";
+    }
+
+    function percentToGradeInput(subject, percent) {
+      const score = clampScore(percent, 0, 100);
+      if (score === null) return 0;
+      if (subject === "english" || subject === "math") return score;
+      return Math.round((score / 100) * percentMax[subject]);
+    }
+
+    function setPill(id, level) {
+      const el = document.getElementById(id);
+      el.className = "level-pill " + levelClass(level);
+      el.textContent = level;
+    }
+
+    function getLevels() {
+      if (inputMode === "direct") {
+        return Object.fromEntries(subjectIds.map(id => [id, document.getElementById(id + "Direct").value]));
+      }
+      return Object.fromEntries(subjectIds.map(id => {
+        const converted = percentToGradeInput(id, document.getElementById(id + "Percent").value);
+        return [id, getLevel(id, converted)];
+      }));
+    }
+
+    function describeCombo(selectedLevels) {
+      const counts = { A: 0, B: 0, C: 0 };
+      Object.values(selectedLevels).forEach(level => {
+        if (level.startsWith("A")) counts.A += 1;
+        else if (level.startsWith("B")) counts.B += 1;
+        else counts.C += 1;
+      });
+      return ["A", "B", "C"].filter(k => counts[k] > 0).map(k => `${counts[k]}${k}`).join("");
+    }
+
+    function plusMarks(selectedLevels) {
+      return Object.values(selectedLevels).reduce((sum, level) => sum + (level.match(/\+/g) || []).length, 0);
+    }
+
+    function statusFor(diff) {
+      if (diff >= 1) return ["相對穩", "stable"];
+      if (diff >= 0) return ["可列入", "match"];
+      if (diff >= -1) return ["高挑戰", "reach"];
+      return ["差距較大", "hard"];
+    }
+
+    function update() {
+      const selected = getLevels();
+      subjectIds.forEach(id => {
+        if (inputMode === "percent") setPill(id + "PercentLevel", selected[id]);
+        const directPoint = document.getElementById(id + "DirectPoint");
+        directPoint.textContent = levelPoints[document.getElementById(id + "Direct").value];
+      });
+
+      const examScore = subjectIds.reduce((sum, id) => sum + levelPoints[selected[id]], 0);
+      document.getElementById("examScore").textContent = fmt(examScore);
+      document.getElementById("combo").textContent = describeCombo(selected);
+      document.getElementById("plusCount").textContent = `+ 標示數 ${plusMarks(selected)}`;
+      renderSchools(examScore);
+    }
+
+    function categoryLabel() {
+      return schoolCategory;
+    }
+
+    function keywordList(value) {
+      return value
+        .trim()
+        .split(/[\s,，、]+/)
+        .map(item => item.trim())
+        .filter(Boolean);
+    }
+
+    function searchableText(school) {
+      return [school.ownership, school.city, school.area, school.name, school.department].join(" ");
+    }
+
+    function matchesAnyKeyword(text, keywords) {
+      return keywords.length > 0 && keywords.some(keyword => text.includes(keyword));
+    }
+
+    function renderSchools(score) {
+      const showPredicted = schoolCategory === "高中";
+      document.getElementById("predictedHeader").hidden = !showPredicted;
+      document.getElementById("schoolFilters").hidden = showPredicted;
+      const searchTerms = showPredicted ? [] : keywordList(document.getElementById("keywordSearch").value);
+      const hasActiveFilter = searchTerms.length > 0;
+      const rows = schools
+        .filter(school => school.category === schoolCategory)
+        .map(school => {
+          const referenceCutoff = [school.cutoff, school.cutoff114, school.cutoff113].find(Number.isFinite);
+          const diff = Number.isFinite(referenceCutoff) ? score - referenceCutoff : null;
+          const text = searchableText(school);
+          const focus = matchesAnyKeyword([school.department, school.name].join(" "), searchTerms) ? 1 : 0;
+          const [label, css] = diff === null ? ["無分數資料", "hard"] : statusFor(diff);
+          return { ...school, referenceCutoff, diff, label, css, text, focus };
+        })
+        .filter(school => {
+          if (school.diff !== null) return school.diff >= -1;
+          return hasActiveFilter && (searchTerms.every(term => school.text.includes(term)) || school.focus === 1);
+        })
+        .filter(school => searchTerms.length === 0 || searchTerms.every(term => school.text.includes(term)))
+        .sort((a, b) => {
+          if (b.focus !== a.focus) return b.focus - a.focus;
+          if ((b.diff !== null) !== (a.diff !== null)) return (b.diff !== null) - (a.diff !== null);
+          const aCutoff = Number.isFinite(a.referenceCutoff) ? a.referenceCutoff : -Infinity;
+          const bCutoff = Number.isFinite(b.referenceCutoff) ? b.referenceCutoff : -Infinity;
+          return bCutoff - aCutoff || a.name.localeCompare(b.name, "zh-Hant") || a.department.localeCompare(b.department, "zh-Hant");
+        });
+
+      document.getElementById("schoolCount").textContent = rows.length;
+      if (!rows.length) {
+        document.getElementById("schoolRows").innerHTML = `<tr><td colspan="${showPredicted ? 9 : 8}">${categoryLabel()}目前沒有已匯入且符合落點的科別</td></tr>`;
+        return;
+      }
+      document.getElementById("schoolRows").innerHTML = rows.map(school => `
+        <tr>
+          <td>${school.ownership}</td>
+          <td>${school.city}</td>
+          <td>${school.area}</td>
+          <td>${school.name}</td>
+          <td>${school.department}</td>
+          <td class="num">${fmtCutoff(school.cutoff113)}</td>
+          <td class="num">${fmtCutoff(school.cutoff114)}</td>
+          ${showPredicted ? `<td class="num">${fmtCutoff(school.cutoff)}</td>` : ""}
+          <td><span class="status ${school.css}">${school.label}</span></td>
+        </tr>
+      `).join("");
+    }
+
+    function fillDirectSelects() {
+      subjectIds.forEach(id => {
+        const select = document.getElementById(id + "Direct");
+        select.innerHTML = levels.map(level => `<option value="${level}" ${level === "A" ? "selected" : ""}>${level}</option>`).join("");
+      });
+    }
+
+    function setMode(mode) {
+      inputMode = mode;
+      document.getElementById("percentInputs").hidden = mode !== "percent";
+      document.getElementById("directInputs").hidden = mode !== "direct";
+      document.getElementById("percentMode").classList.toggle("active", mode === "percent");
+      document.getElementById("levelMode").classList.toggle("active", mode === "direct");
+      update();
+    }
+
+    function setSchoolCategory(category) {
+      schoolCategory = category;
+      document.getElementById("highSchoolTab").classList.toggle("active", category === "高中");
+      document.getElementById("vocationalTab").classList.toggle("active", category === "高工/高商");
+      update();
+    }
+
+    function clampScore(value, min, max) {
+      const numeric = Number(value);
+      if (Number.isNaN(numeric)) return null;
+      return Math.min(max, Math.max(min, numeric));
+    }
+
+    fillDirectSelects();
+    document.querySelectorAll("input, select").forEach(el => el.addEventListener("input", update));
+    document.getElementById("percentMode").addEventListener("click", () => setMode("percent"));
+    document.getElementById("levelMode").addEventListener("click", () => setMode("direct"));
+    document.getElementById("highSchoolTab").addEventListener("click", () => setSchoolCategory("高中"));
+    document.getElementById("vocationalTab").addEventListener("click", () => setSchoolCategory("高工/高商"));
+    update();
+  </script>
+</body>
+</html>
